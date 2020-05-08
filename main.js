@@ -113,7 +113,9 @@ healthcheck(callback) {
       * If an optional IAP callback function was passed to
       * healthcheck(), execute it passing the error seen as an argument
       * for the callback's errorMessage parameter.
-      */
+      */    
+     this.emitOffline()
+     log.error("External system is temporarily down for maintenance.");    
    } else {
      /**
       * Write this block.
@@ -125,6 +127,8 @@ healthcheck(callback) {
       * parameter as an argument for the callback function's
       * responseData parameter.
       */
+    this.emitOnline()
+    log.info(`Task completed succesfully`)   
    }
  });
 }
