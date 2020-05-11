@@ -58,7 +58,7 @@ class ServiceNowAdapter extends EventEmitter {
     super();
     // Copy arguments' values to object properties.
     this.id = id;
-    this.props = adapterProperties;
+    this.props = adapterProperties;    
     // Instantiate an object from the connector.js module and assign it to an object property.
     this.connector = new ServiceNowConnector({
       url: this.props.url,
@@ -94,13 +94,7 @@ class ServiceNowAdapter extends EventEmitter {
  *   that handles the response.
  */
 healthcheck(callback) {
- this.getRecord((result, error) => {
-   /**
-    * For this lab, complete the if else conditional
-    * statements that check if an error exists
-    * or the instance was hibernating. You must write
-    * the blocks for each branch.
-    */
+ this.getRecord((result, error) => {  
    if (error) {
      /**
       * Write this block.
@@ -186,6 +180,7 @@ healthcheck(callback) {
      * Note how the object was instantiated in the constructor().
      * get() takes a callback function.
      */
+     log.info('called getRecord')
     let getCallOptions = { ...this.connector.options, method:'GET', query:'sysparm_limit=1' };    
     this.connector.sendRequest(getCallOptions, (results, error) => callback(results, error));
   }
@@ -205,9 +200,9 @@ healthcheck(callback) {
      * The function is a wrapper for this.connector's post() method.
      * Note how the object was instantiated in the constructor().
      * post() takes a callback function.
-     */
+     */     
      let getCallOptions = { ...this.connector.options, method:'POST' };  
-     this.sendRequest(getCallOptions, (results, error) => callback(results, error));
+     this.connector.sendRequest(getCallOptions, (results, error) => callback(results, error));
   }
 }
 
