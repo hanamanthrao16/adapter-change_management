@@ -182,7 +182,7 @@ healthcheck(callback) {
      */
      log.info('called getRecord')
     let getCallOptions = { ...this.connector.options, method:'GET', query:'sysparm_limit=1' };    
-    this.connector.sendRequest(getCallOptions, (results, error) => callback(results, error));
+    this.connector.sendRequest(getCallOptions, (results, error) => callback(JSON.parse(results.body), error));
   }
 
   /**
@@ -202,7 +202,7 @@ healthcheck(callback) {
      * post() takes a callback function.
      */     
      let getCallOptions = { ...this.connector.options, method:'POST' };  
-     this.connector.sendRequest(getCallOptions, (results, error) => callback(results, error));
+     this.connector.sendRequest(getCallOptions, (results, error) => callback(JSON.parse(results.body), error));
   }
 }
 
