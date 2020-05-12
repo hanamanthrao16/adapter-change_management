@@ -182,13 +182,14 @@ class ServiceNowAdapter extends EventEmitter {
          */
         let resultdata = []
         log.info('called getRecord')
-        let getCallOptions = { ...this.connector.options, method: 'GET', query: 'sysparm_limit=1' };        
+        let getCallOptions = { ...this.connector.options, method: 'GET', query: 'sysparm_limit=1' };
         this.connector.sendRequest(getCallOptions, (results, error) => {
-            let resultdata = []
-            let obj = JSON.parse(results.body)
-            obj.result.forEach(data => {
-                resultdata.push(this.connector.formateResponse(data))
-            })
+            if (!error) {
+                let obj = JSON.parse(results.body)
+                obj.result.forEach(data => {
+                    resultdata.push(this.connector.formateResponse(data))
+                })
+            }
             callback(resultdata, error)
         })
     }
@@ -211,11 +212,12 @@ class ServiceNowAdapter extends EventEmitter {
          * post() takes a callback function.
          */
         let getCallOptions = { ...this.connector.options, method: 'POST' };
+        let respondata = null
         this.connector.sendRequest(getCallOptions, (results, error) => {
-            log.info(`results- ${results}`)
-            let obj = JSON.parse(results.body)
-            let respondata = this.connector.formateResponse(obj.result)
-            log.info(`respondata- ${respondata}`)
+            if (!error) {
+                let obj = JSON.parse(results.body)
+                respondata = this.connector.formateResponse(obj.result)
+            }
             callback(respondata, error)
         })
     }
